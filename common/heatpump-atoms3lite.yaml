@@ -1,0 +1,19 @@
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  platformio_options:
+    board_build.mcu: esp32s3
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: arduino
+
+uart:
+  id: HP_UART
+  baud_rate: 2400
+  tx_pin: GPIO1
+  rx_pin: GPIO2
+
+logger:
+  level: INFO

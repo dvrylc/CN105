@@ -1,0 +1,11 @@
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+sensor:
+  - platform: uptime
+    name: Uptime
+
+button:
+  - platform: restart
+    name: Restart

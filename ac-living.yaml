@@ -1,0 +1,11 @@
+substitutions:
+  name: ac-living
+  friendly_name: Living Room Air Conditioner
+  model: MSXY-FP24VG
+
+packages:
+  wifi: !include common/wifi.yaml
+  sensors: !include common/sensors.yaml
+  heatpump-atoms3lite: !include common/heatpump-atoms3lite.yaml
+  fanspeeds: !include common/heatpump-fanspeeds.yaml
+  climate: !include common/heatpump-climate.yaml

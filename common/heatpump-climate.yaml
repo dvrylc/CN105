@@ -1,0 +1,39 @@
+# External component: https://github.com/echavet/MitsubishiCN105ESPHome
+external_components:
+  - source: github://echavet/MitsubishiCN105ESPHome
+    refresh: 0s
+
+climate:
+  - platform: cn105
+    id: hp
+    name: "${friendly_name}"
+    icon: mdi:heat-pump
+    visual:
+      min_temperature: 16
+      max_temperature: 31
+      temperature_step:
+        target_temperature: 1
+        current_temperature: 0.5
+    update_interval: 2s
+    debounce_delay: 100ms
+    vertical_vane_select:
+      name: Vertical Vane
+      disabled_by_default: false
+    horizontal_vane_select:
+      name: Horizontal Vane
+      disabled_by_default: false
+    stage_sensor:
+      name: Stage
+      id: stage
+      entity_category: diagnostic
+      disabled_by_default: false
+    input_power_sensor:
+      name: Input Power
+      disabled_by_default: false
+    kwh_sensor:
+      name: Energy Usage
+      disabled_by_default: false
+    runtime_hours_sensor:
+      name: Runtime Hours
+      entity_category: diagnostic
+      disabled_by_default: false

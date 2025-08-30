@@ -1,0 +1,75 @@
+sensor:
+  - platform: template
+    id: cfm_lookup
+    internal: true
+    lambda: |-
+      json::parse_json(id(fanspeed_json).state, [](JsonObject root) -> bool {
+          if (root[id(model).state]) {
+            id(fan_cfm).publish_state(root[id(model).state][id(stage).state]);
+            ESP_LOGD(TAG,"CFM calculated from JSON");
+            return true;
+          }
+          else {
+            ESP_LOGD(TAG,"Unsupported model - can't return fan CFM");
+            return false;
+          }
+      });
+      return 0;
+    update_interval: 1s
+  - platform: template
+    name: "Fan CFM"
+    id: fan_cfm
+    unit_of_measurement: "ft³/min"
+    icon: "mdi:weather-windy"
+    device_class: "volume_flow_rate"
+    state_class: "measurement"
+    accuracy_decimals: 0
+    disabled_by_default: false
+    filters:
+      - sliding_window_moving_average:
+          window_size: 4
+          send_every: 1
+      - delta: 1
+
+text:
+  - platform: template
+    id: model
+    internal: true
+    optimistic: true
+    mode: text
+    initial_value: ${model}
+  - platform: template
+    id: fanspeed_json
+    internal: true
+    optimistic: true
+    mode: text
+    initial_value: >
+      {
+        "MSXY-FP10VG": {
+          "IDLE": 0,
+          "DIFFUSE": 246,
+          "LOW": 246,
+          "GENTLE": 306,
+          "MEDIUM": 378,
+          "MODERATE": 546,
+          "HIGH": 774
+        },
+        "MSXY-FP13VG": {
+          "IDLE": 0,
+          "DIFFUSE": 246,
+          "LOW": 246,
+          "GENTLE": 306,
+          "MEDIUM": 378,
+          "MODERATE": 546,
+          "HIGH": 846
+        },
+        "MSXY-FP24VG": {
+          "IDLE": 0,
+          "DIFFUSE": 558,
+          "LOW": 558,
+          "GENTLE": 666,
+          "MEDIUM": 822,
+          "MODERATE": 966,
+          "HIGH": 1200
+        }
+      }
